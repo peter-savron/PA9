@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Automatic" Id="{6c83d90f-8360-42e8-acf9-21e66d771135}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Automatic
+VAR
+	foo : BOOL;
+	motor_1 : Motor2;
+	auto_move : AutoMove;
+	auto_move_2 : AutoMove2;
+	tracking : TrackingLogic;
+	init : Init;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+init();
+auto_move_2();
+motor_1();
+tracking();]]></ST>
+    </Implementation>
+    <LineIds Name="Automatic">
+      <LineId Id="37" Count="0" />
+      <LineId Id="35" Count="1" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="27" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="POZAYZ" Id="{214871ee-5dfd-42a9-b27a-19763bf1d837}">
+    <Declaration><![CDATA[TYPE POZAYZ :
+STRUCT
+	A: INT;
+	Y: INT;
+	Z: INT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

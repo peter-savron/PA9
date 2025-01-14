@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Motor" Id="{183a81e9-a3e5-4857-ba31-4a4bf27437fb}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Motor
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	interlock : BOOL;
+	stop: BOOL;
+	motor_select : INT := 0;
+	mc1 : MotorControla;
+	mc2 : MotorControla;
+	mc3 : MotorControla;
+	mc4 : MotorControla;
+	tst: BOOL := FALSE;
+	dmp: WORD;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//manual control
+GVL.MDP := FALSE;
+GVL.MIP := FALSE;
+GVL.MPP := FALSE;
+GVL.MVP := FALSE;
+IF GVL.ToggleSwitch = TRUE THEN
+	AUTO.Varno := FALSE;
+	IF GVL.ULBButton THEN
+		motor_select := 1;
+	ELSIF GVL.URBButton THEN
+		motor_select := 2;
+	ELSIF GVL.LLBButton THEN
+		motor_select := 3;
+	ELSIF GVL.LRBButton THEN
+		motor_select := 4;
+	END_IF
+	
+	CASE motor_select OF
+		1: mc1(
+			Premik := GVL.RedButton,
+			Smer := GVL.GreenButton,
+			Select := TRUE,
+			KS := GVL.KSV,
+			Step :=GVL.StV,
+			Limes := 185,
+			Position => AUTO.Current.A,
+			OutSmer => GVL.MVS,
+			OutPremik => GVL.MVP,
+			Interlock => interlock,
+			Stop => stop
+			);
+		2: mc2(
+			Premik := GVL.RedButton,
+			Smer := GVL.GreenButton,
+			Select := TRUE,
+			KS := GVL.KSD,
+			Step :=GVL.StD,
+			Limes := 105,
+			Position => AUTO.Current.Z,
+			OutSmer => GVL.MDS,
+			OutPremik => GVL.MDP,
+			Interlock => interlock,
+			Stop => stop);
+		3: mc3(
+			Premik := GVL.RedButton,
+			Smer := GVL.GreenButton,
+			Select := TRUE,
+			KS := GVL.KSI,
+			Step :=GVL.StI,
+			Limes := 65,
+			Position => AUTO.Current.Y,
+			OutSmer => GVL.MIS,
+			OutPremik => GVL.MIP,
+			Interlock => interlock,
+			Stop => stop);
+		4: mc4(
+			Premik := GVL.RedButton,
+			Smer := GVL.GreenButton,
+			Select := TRUE,
+			KS := GVL.KSP,
+			Step :=GVL.StP,
+			Limes := 16,
+			Position => AUTO.Current.P,
+			OutSmer => GVL.MPS,
+			OutPremik => GVL.MPP,
+			Interlock => interlock,
+			Stop => stop);
+	END_CASE
+	
+	GVL.LEDGreen := stop;
+	GVL.LEDRed := interlock;
+	
+ELSE
+	CASE AUTO.MotorIzbira OF
+		1: mc1(
+			Premik := AUTO.VrtenjePremik,
+			Smer := AUTO.VrtenjeSmer,
+			Select := TRUE,
+			KS := GVL.KSV,
+			Step :=GVL.StV,
+			Limes := 185,
+			Position => AUTO.Current.A,
+			OutPremik => GVL.MVP,
+			OutSmer => GVL.MVS,
+			Interlock => interlock,
+			Stop => stop
+			);
+		2: mc2(
+			Premik := AUTO.DvigPremik,
+			Smer := AUTO.DvigSmer,
+			Select := TRUE,
+			KS := GVL.KSD,
+			Step :=GVL.StD,
+			Limes := 105,
+			Position => AUTO.Current.Z,
+			OutPremik => GVL.MDP,
+			OutSmer => GVL.MDS,
+			Interlock => interlock,
+			Stop => stop
+			);
+		
+		3: IF AUTO.Current.Y = 0 AND AUTO.IztegSmer = TRUE THEN
+			//GVL.LEDLBlue := TRUE;
+			ELSE
+			//.LEDLBlue := FALSE;
+			mc3(
+			Premik := AUTO.IztegPremik,
+			Smer := AUTO.IztegSmer,
+			Select := TRUE,
+			KS := GVL.KSI,
+			Step :=GVL.StI,
+			Limes := 60,
+			Position => AUTO.Current.Y,
+			OutPremik => GVL.MIP,
+			OutSmer => GVL.MIS,
+			Interlock => interlock,
+			Stop => stop
+			);
+			END_IF
+		4: mc4(
+			Premik := AUTO.PrijemPremik,
+			Smer := AUTO.PrijemSmer,
+			Select := TRUE,
+			KS := GVL.KSP,
+			Step :=GVL.StP,
+			Limes := 16,
+			Position => AUTO.Current.P,
+			OutPremik => GVL.MPP,
+			OutSmer => GVL.MPS,
+			Interlock => interlock,
+			Stop => stop
+			);
+	END_CASE
+	
+	GVL.LEDGreen := stop;
+	GVL.LEDRed := interlock;
+	
+END_IF
+
+RETURN;]]></ST>
+    </Implementation>
+    <LineIds Name="Motor">
+      <LineId Id="506" Count="2" />
+      <LineId Id="295" Count="1" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="418" Count="0" />
+      <LineId Id="119" Count="11" />
+      <LineId Id="132" Count="6" />
+      <LineId Id="350" Count="0" />
+      <LineId Id="370" Count="0" />
+      <LineId Id="372" Count="1" />
+      <LineId Id="486" Count="0" />
+      <LineId Id="143" Count="0" />
+      <LineId Id="145" Count="6" />
+      <LineId Id="351" Count="0" />
+      <LineId Id="375" Count="1" />
+      <LineId Id="155" Count="1" />
+      <LineId Id="158" Count="5" />
+      <LineId Id="165" Count="0" />
+      <LineId Id="352" Count="0" />
+      <LineId Id="378" Count="1" />
+      <LineId Id="168" Count="1" />
+      <LineId Id="171" Count="6" />
+      <LineId Id="353" Count="0" />
+      <LineId Id="381" Count="1" />
+      <LineId Id="181" Count="5" />
+      <LineId Id="207" Count="0" />
+      <LineId Id="209" Count="1" />
+      <LineId Id="267" Count="0" />
+      <LineId Id="213" Count="5" />
+      <LineId Id="384" Count="0" />
+      <LineId Id="386" Count="0" />
+      <LineId Id="385" Count="0" />
+      <LineId Id="383" Count="0" />
+      <LineId Id="222" Count="0" />
+      <LineId Id="270" Count="0" />
+      <LineId Id="272" Count="5" />
+      <LineId Id="387" Count="4" />
+      <LineId Id="235" Count="0" />
+      <LineId Id="347" Count="0" />
+      <LineId Id="286" Count="0" />
+      <LineId Id="325" Count="0" />
+      <LineId Id="322" Count="0" />
+      <LineId Id="328" Count="0" />
+      <LineId Id="323" Count="0" />
+      <LineId Id="288" Count="0" />
+      <LineId Id="239" Count="4" />
+      <LineId Id="392" Count="4" />
+      <LineId Id="248" Count="0" />
+      <LineId Id="324" Count="0" />
+      <LineId Id="289" Count="0" />
+      <LineId Id="291" Count="0" />
+      <LineId Id="252" Count="4" />
+      <LineId Id="397" Count="4" />
+      <LineId Id="261" Count="5" />
+      <LineId Id="197" Count="0" />
+      <LineId Id="320" Count="0" />
+      <LineId Id="57" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TrackingLogic" Id="{08bd7de2-ed34-413b-853a-e57239f0a725}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TrackingLogic
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	target_ID : INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[target_ID := AUTO.Stages[AUTO.Recept][AUTO.StageSelect].I;
+IF AUTO.Current.P > 13 THEN
+	AUTO.Prijem := TRUE;
+ELSE
+	AUTO.Prijem := FALSE;
+END_IF
+IF target_ID <> 0 AND AUTO.Current.P > 13 THEN
+	AUTO.VRoki := target_ID;
+	GVL.LEDLBlue := TRUE;
+END_IF
+IF AUTO.Current.P < 5 THEN
+	AUTO.VRoki := 0;
+	GVL.LEDLBlue := 0;
+END_IF
+
+IF AUTO.VRoki <> 0 THEN
+	AUTO.Items[AUTO.VRoki].A := AUTO.Current.A;
+	AUTO.Items[AUTO.VRoki].Y := AUTO.Current.Y;
+	AUTO.Items[AUTO.VRoki].Z := AUTO.Current.Z; 
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="TrackingLogic">
+      <LineId Id="9" Count="0" />
+      <LineId Id="33" Count="1" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="13" Count="2" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="21" Count="1" />
+      <LineId Id="20" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="GVL" Id="{6f616b8b-4937-4039-bd90-e54159c9e3e1}">
+    <Declaration><![CDATA[{attribute 'Iualified_only'}
+
+
+VAR_GLOBAL
+	ToggleSwitch AT %I* : BOOL;
+	LEDRed AT %Q* : BOOL;
+	LEDGreen AT %Q* : BOOL;
+	LEDUBlue AT %Q* : BOOL;
+	LEDLBlue AT %Q* : BOOL;
+	RedButton AT %I* : BOOL;
+	GreenButton AT %I* : BOOL;
+	ULBButton AT %I* : BOOL;
+	URBButton AT %I* : BOOL;
+	LLBButton AT %I* : BOOL;
+	LRBButton AT %I* : BOOL;
+	
+	MVS AT %Q* : BOOL;
+	MVP AT %Q* : BOOL;
+	MIS AT %Q* : BOOL;
+	MIP AT %Q* : BOOL;
+	MDS AT %Q* : BOOL;
+	MDP AT %Q* : BOOL;
+	MPS AT %Q* : BOOL;
+	MPP AT %Q* : BOOL;
+	
+	KSV AT %I* : BOOL;
+	KSI AT %I* : BOOL;
+	KSD AT %I* : BOOL;
+	KSP AT %I* : BOOL;
+	StV AT %I* : BOOL;
+	StD AT %I* : BOOL;
+	StI AT %I* : BOOL;
+	StP AT %I* : BOOL;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

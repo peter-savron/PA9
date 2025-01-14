@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="KOMANDA" Id="{a81dd96f-1dd5-4b1e-8b74-1eefdad41c5e}">
+    <Declaration><![CDATA[TYPE KOMANDA :
+STRUCT
+	I: INT;
+	T: INT;
+	P : INT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

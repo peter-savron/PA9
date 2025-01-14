@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Init" Id="{58081b1d-844a-491d-9e19-8082773cf0bf}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Init
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF NOT AUTO.Init AND GVL.ToggleSwitch = FALSE THEN
+	IF NOT GVL.KSV THEN
+		AUTO.MotorIzbira := 1;
+		AUTO.VrtenjeSmer := TRUE;
+		AUTO.VrtenjePremik := TRUE;
+	ELSIF NOT GVL.KSD THEN
+		AUTO.VrtenjePremik:= FALSE;
+		AUTO.MotorIzbira := 2;
+		AUTO.DvigSmer := TRUE;
+		AUTO.DvigPremik := TRUE;
+	ELSIF NOT GVL.KSP THEN
+		AUTO.MotorIzbira := 4;
+		AUTO.PrijemSmer := TRUE;
+		AUTO.PrijemPremik := TRUE;
+	ELSE
+		AUTO.MotorIzbira := 0;
+		AUTO.Current.Y := 0;
+		IF GVL.ULBButton = TRUE THEN
+			AUTO.Recept := 1;
+		ELSIF GVL.URBButton = TRUE THEN
+			AUTO.Recept:= 2;
+		ELSIF GVL.LLBButton= TRUE THEN
+			AUTO.Recept := 3;
+		END_IF
+		IF AUTO.Recept <> 0 THEN
+			AUTO.StageSelect := 1;
+			AUTO.Init := TRUE;
+		END_IF
+		
+	END_IF
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="Init">
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="15" Count="2" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="19" Count="2" />
+      <LineId Id="26" Count="2" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="68" Count="1" />
+      <LineId Id="71" Count="3" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="65" Count="2" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="12" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

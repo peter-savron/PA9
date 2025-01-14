@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="AutoMove2" Id="{aacb6a7f-e5c4-4e38-9ad4-dc662886ab74}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK AutoMove2
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	Target : POZAYZ;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF AUTO.Init AND AUTO.StageSelect > 0 AND AUTO.StageSelect < AUTO.StageMax THEN
+	IF AUTO.Varno = FALSE THEN
+		AUTO.MotorIzbira := 3;
+		AUTO.IztegSmer := TRUE;
+		AUTO.IztegPremik := TRUE;
+		IF AUTO.Current.Y = 0 THEN
+			AUTO.Varno := TRUE;
+		END_IF
+	ELSIF AUTO.Stages[AUTO.Recept][Auto.StageSelect].I = 0 THEN
+		Target := AUTO.Positions[AUTO.Stages[AUTO.Recept][Auto.StageSelect].T];
+		IF AUTO.Current.Z <> Target.Z  THEN
+			AUTO.MotorIzbira := 2;
+			IF AUTO.Current.Z > Target.Z THEN
+				AUTO.DvigSmer := TRUE;
+			ELSE
+				AUTO.DvigSmer := FALSE;
+			END_IF
+		AUTO.DvigPremik := TRUE;
+		ELSIF AUTO.Current.A <> Target.A  THEN
+			AUTO.MotorIzbira := 1;
+			IF AUTO.Current.A > Target.A THEN
+				AUTO.VrtenjeSmer := TRUE;
+			ELSE
+				AUTO.VrtenjeSmer := FALSE;
+			END_IF
+			AUTO.VrtenjePremik := TRUE;
+		ELSIF AUTO.Current.Y <> Target.Y  THEN
+			AUTO.MotorIzbira := 3;
+			IF AUTO.Current.Y > Target.Y THEN
+				AUTO.IztegSmer := TRUE;
+			ELSE
+				AUTO.IztegSmer := FALSE;
+			END_IF
+			AUTO.IztegPremik := TRUE;
+		ELSIF AUTO.Current.P <> AUTO.Stages[AUTO.Recept][Auto.StageSelect].P  THEN
+			AUTO.MotorIzbira := 4;
+			IF AUTO.Current.P > AUTO.Stages[AUTO.Recept][Auto.StageSelect].P THEN
+				AUTO.PrijemSmer := TRUE;
+			ELSE
+				AUTO.PrijemSmer := FALSE;
+			END_IF
+			AUTO.PrijemPremik := TRUE;
+		ELSE
+			AUTO.VrtenjePremik := FALSE;
+			AUTO.DvigPremik := FALSE;
+			AUTO.IztegPremik := FALSE;
+			AUTO.PrijemPremik := FALSE;
+			AUTO.StageSelect := AUTO.StageSelect + 1;
+			AUTO.Varno := FALSE;
+		END_IF
+	ELSE
+		Target := AUTO.Items[AUTO.Stages[AUTO.Recept][Auto.StageSelect].I];
+			IF AUTO.Current.A <> Target.A  THEN
+			AUTO.MotorIzbira := 1;
+			IF AUTO.Current.A > Target.A THEN
+				AUTO.VrtenjeSmer := TRUE;
+			ELSE
+				AUTO.VrtenjeSmer := FALSE;
+			END_IF
+			AUTO.VrtenjePremik := TRUE;
+		ELSIF AUTO.Current.Z <> Target.Z  THEN
+			AUTO.MotorIzbira := 2;
+			IF AUTO.Current.Z > Target.Z THEN
+				AUTO.DvigSmer := TRUE;
+			ELSE
+				AUTO.DvigSmer := FALSE;
+			END_IF
+			AUTO.DvigPremik := TRUE;
+		ELSIF AUTO.Current.Y <> Target.Y  THEN
+			AUTO.MotorIzbira := 3;
+			IF AUTO.Current.Y > Target.Y THEN
+				AUTO.IztegSmer := TRUE;
+			ELSE
+				AUTO.IztegSmer := FALSE;
+			END_IF
+			AUTO.IztegPremik := TRUE;
+		ELSIF AUTO.Current.P <> AUTO.Stages[AUTO.Recept][Auto.StageSelect].P  THEN
+			AUTO.MotorIzbira := 4;
+			IF AUTO.Current.P > AUTO.Stages[AUTO.Recept][Auto.StageSelect].P THEN
+				AUTO.PrijemSmer := TRUE;
+			ELSE
+				AUTO.PrijemSmer := FALSE;
+			END_IF
+			AUTO.PrijemPremik := TRUE;
+		ELSE
+			AUTO.VrtenjePremik := FALSE;
+			AUTO.DvigPremik := FALSE;
+			AUTO.IztegPremik := FALSE;
+			AUTO.PrijemPremik := FALSE;
+			AUTO.StageSelect := AUTO.StageSelect + 1;
+			IF AUTO.StageSelect = AUTO.StageMax THEN
+				AUTO.StageSelect := 0;
+				AUTO.Init := FALSE;
+				AUTO.Recept := 0;
+			END_IF
+			AUTO.Varno := FALSE;
+		END_IF
+	END_IF
+	
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="AutoMove2">
+      <LineId Id="10" Count="0" />
+      <LineId Id="179" Count="6" />
+      <LineId Id="168" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="104" Count="6" />
+      <LineId Id="119" Count="7" />
+      <LineId Id="160" Count="7" />
+      <LineId Id="127" Count="14" />
+      <LineId Id="186" Count="0" />
+      <LineId Id="103" Count="0" />
+      <LineId Id="54" Count="1" />
+      <LineId Id="65" Count="6" />
+      <LineId Id="151" Count="7" />
+      <LineId Id="72" Count="7" />
+      <LineId Id="88" Count="14" />
+      <LineId Id="197" Count="1" />
+      <LineId Id="208" Count="1" />
+      <LineId Id="199" Count="0" />
+      <LineId Id="187" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

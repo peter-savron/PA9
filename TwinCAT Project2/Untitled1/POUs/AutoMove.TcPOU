@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="AutoMove" Id="{f87ec304-afbe-4cdb-bf11-12928f5bbd8d}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK AutoMove
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF AUTO.Status > 0 AND AUTO.Status < AUTO.N THEN
+	IF AUTO.Current.A <> AUTO.Komande0[AUTO.Status].A  THEN
+		AUTO.MotorIzbira := 1;
+		IF AUTO.Current.A > AUTO.Komande0[AUTO.Status].A THEN
+			AUTO.VrtenjeSmer := TRUE;
+		ELSE
+			AUTO.VrtenjeSmer := FALSE;
+		END_IF
+		AUTO.VrtenjePremik := TRUE;
+	ELSIF AUTO.Current.Y <> AUTO.Komande0[AUTO.Status].Y  THEN
+		AUTO.MotorIzbira := 3;
+		IF AUTO.Current.Y > AUTO.Komande0[AUTO.Status].Y THEN
+			AUTO.IztegSmer := TRUE;
+		ELSE
+			AUTO.IztegSmer := FALSE;
+		END_IF
+		AUTO.IztegPremik := TRUE;
+	ELSIF AUTO.Current.Z <> AUTO.Komande0[AUTO.Status].Z  THEN
+		AUTO.MotorIzbira := 2;
+		IF AUTO.Current.Z > AUTO.Komande0[AUTO.Status].Z THEN
+			AUTO.DvigSmer := TRUE;
+		ELSE
+			AUTO.DvigSmer := FALSE;
+		END_IF
+		AUTO.DvigPremik := TRUE;
+	ELSIF AUTO.Current.P <> AUTO.Komande0[AUTO.Status].P  THEN
+		AUTO.MotorIzbira := 4;
+		IF AUTO.Current.P > AUTO.Komande0[AUTO.Status].P THEN
+			AUTO.PrijemSmer := TRUE;
+		ELSE
+			AUTO.PrijemSmer := FALSE;
+		END_IF
+		AUTO.PrijemPremik := TRUE;
+	ELSE
+		AUTO.VrtenjePremik := FALSE;
+		AUTO.DvigPremik := FALSE;
+		AUTO.IztegPremik := FALSE;
+		AUTO.PrijemPremik := FALSE;
+		AUTO.Status := AUTO.Status + 1;
+	END_IF
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="AutoMove">
+      <LineId Id="72" Count="0" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="40" Count="1" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="42" Count="6" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="49" Count="5" />
+      <LineId Id="21" Count="1" />
+      <LineId Id="55" Count="5" />
+      <LineId Id="25" Count="2" />
+      <LineId Id="32" Count="3" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
